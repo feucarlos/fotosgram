@@ -13,15 +13,12 @@
   </ion-label>
 </ion-item>
 
-<ion-slides mode="ios" pager="true">
-  <ion-slide>
-    <img src="/assets/perro-1.jpg" >
+<ion-slides pager="true">
+  <ion-slide class="image-slide" [style]="img1 | domSanitizer">
   </ion-slide>
-  <ion-slide>
-    <img src="/assets/perro-2.jpg" >
+  <ion-slide class="image-slide" [style]="img2 | domSanitizer">
   </ion-slide>
-  <ion-slide>
-    <img src="/assets/perro-3.jpg" >
+  <ion-slide class="image-slide" [style]="img3 | domSanitizer">
   </ion-slide>
 </ion-slides>
 
