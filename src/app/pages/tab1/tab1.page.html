@@ -12,7 +12,9 @@
 <ion-content color="light">
 
   <!-- Refresher  -->
-
+  <ion-refresher slot="fixed" (ionRefresh)="recargar($event)" pullFactor="0.8" pullMin="60" pullMax="120">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
 
   <!-- Posts  -->
@@ -20,5 +22,9 @@
 
 
   <!-- Infinit scroll   -->
+  <ion-infinite-scroll threshold="150px" position="bottom" (ionInfinite)="siguientes($event)" [disabled]="!infScrHabilitado">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando más entradas...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 </ion-content>

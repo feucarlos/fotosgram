@@ -10,15 +10,40 @@ import { PostsService } from 'src/app/services/posts.service';
 export class Tab1Page implements OnInit{
 
   posts: Post[] = [];
+  infScrHabilitado = true;
 
   constructor(private postService: PostsService) {}
 
   ngOnInit(){
+    this.siguientes();
+  }
 
-    this.postService.getPosts().subscribe( resp => {
-        console.log(resp);
-        this.posts.push(...resp.post);
-    });
+  recargar( event ){
+    this.infScrHabilitado = true;
+    this.siguientes( event, true );
+
+  }
+
+  siguientes( event?, pull: boolean = false ) {
+
+    if (pull) {
+      this.posts = [];
+    }
+
+  this.postService.getPosts( pull ).subscribe( resp => {
+      console.log(resp);
+      this.posts.push(...resp.post);
+
+      if (event){
+        event.target.complete();
+        if ( resp.post.length === 0 ){
+          this.infScrHabilitado = false;
+        }
+      }
+
+  });
+
+
 
   }
 
