@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Post } from 'src/app/interfaces/interfaces';
 
 @Component({
   selector: 'app-posts',
@@ -7,8 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PostsComponent implements OnInit {
 
+  @Input() posts: Post[] = [];
+
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.posts);
+    
+  }
 
 }

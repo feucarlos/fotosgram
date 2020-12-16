@@ -1,20 +1,23 @@
 <ion-header  class="ion-no-border">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-icon slot="icon-only" name="bonfire"></ion-icon>
+    </ion-buttons>
     <ion-title>
-      Home
+      Fotosgram
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content >
+<ion-content color="light">
 
   <!-- Refresher  -->
 
 
 
   <!-- Posts  -->
+  <app-posts [posts]="posts"></app-posts>
 
-  
 
   <!-- Infinit scroll   -->
 
