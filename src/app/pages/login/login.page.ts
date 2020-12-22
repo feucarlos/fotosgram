@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { IonSlides } from '@ionic/angular';
+import { IonSlides, NavController } from '@ionic/angular';
+import { logging } from 'protractor';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-login',
@@ -50,7 +52,15 @@ export class LoginPage implements OnInit, AfterViewInit {
     slidesPerView: 3.5
   }
 
-  constructor() { }
+  loginUser = {
+    email: 'feucarlos@gmail.com',
+    password: 'secreto'
+  }
+
+  constructor(private usuarioService: UsuarioService,
+              private navCtrl: NavController) {
+    
+  }
 
   ngOnInit() {}
 
@@ -58,8 +68,24 @@ export class LoginPage implements OnInit, AfterViewInit {
     // this.slide.lockSwipes(true);
   }
 
-  login(flogin: NgForm) {
-    console.log(flogin.valid);
+  async login(flogin: NgForm) {
+
+    if (flogin.invalid){ return; }
+
+    const valido = await this.usuarioService.login(this.loginUser.email, this.loginUser.password);
+
+    if ( valido ){
+      // navegar a tabs
+      this.navCtrl.navigateRoot('/main/tabs/tab1', { animated: true });
+    } else {
+      // mostrar alerta de usuario o contraseña incorrectos
+
+      console.log('error fatal');
+      
+    }
+
+
+    
   }
 
   registro(fregistro: NgForm) {
