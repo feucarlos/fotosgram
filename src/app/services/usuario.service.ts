@@ -2,7 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { ThrowStmt } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
+import { url } from 'inspector';
 import { environment } from 'src/environments/environment';
+import { Usuario } from '../interfaces/interfaces';
 
 const URL = environment.url
 
@@ -39,4 +41,23 @@ export class UsuarioService {
     this.token = token;
     await this.storage.set('token', token)
   }
+
+  registro( usuario: Usuario){
+
+    return new Promise( resolve => {
+      this.http.post(`${URL}/user/create`, usuario)
+        .subscribe( resp => {
+          console.log(resp);
+          if ( resp['ok'] ){
+            this.guradarToken(resp['token']);
+            resolve(true);
+          } else {
+            this.token = null;
+            this.storage.clear();
+            resolve(false);
+          }
+        })
+    });
+  }
+
 }

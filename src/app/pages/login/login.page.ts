@@ -1,7 +1,10 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IonSlides, NavController } from '@ionic/angular';
 import { logging } from 'protractor';
+import { Usuario } from 'src/app/interfaces/interfaces';
+import { UiServiceService } from 'src/app/services/ui-service.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -54,42 +57,61 @@ export class LoginPage implements OnInit, AfterViewInit {
 
   loginUser = {
     email: 'feucarlos@gmail.com',
-    password: 'secreto'
+    password: ''
+  }
+
+  registerUser: Usuario = {
+    email: 'test',
+    password: '',
+    nombre: 'Tests',
+    avatar: 'av-1.png'
   }
 
   constructor(private usuarioService: UsuarioService,
-              private navCtrl: NavController) {
-    
+    private navCtrl: NavController,
+    private uiService: UiServiceService) {
+
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
-  ngAfterViewInit(){
-    // this.slide.lockSwipes(true);
+  ngAfterViewInit() {
+    this.slide.lockSwipes(true);
   }
 
   async login(flogin: NgForm) {
 
-    if (flogin.invalid){ return; }
+    if (flogin.invalid) { return; }
 
     const valido = await this.usuarioService.login(this.loginUser.email, this.loginUser.password);
+
+    if (valido) {
+      // navegar a tabs
+      this.navCtrl.navigateRoot('/main/tabs/tab1', { animated: true });
+    } else {
+      // mostrar alerta de usuario o contraseña incorrectos
+      this.uiService.alertaInforrmativa('Error en usuario/contraseña');
+    }
+
+
+
+  }
+
+  async registro(fregistro: NgForm) {
+
+    console.log(fregistro);
+    if (fregistro.invalid) { return; }
+
+    const valido = await this.usuarioService.registro(this.registerUser);
 
     if ( valido ){
       // navegar a tabs
       this.navCtrl.navigateRoot('/main/tabs/tab1', { animated: true });
     } else {
       // mostrar alerta de usuario o contraseña incorrectos
-
-      console.log('error fatal');
-      
+      this.uiService.alertaInforrmativa('El email ha sido registrado previamente');
     }
 
-
-    
-  }
-
-  registro(fregistro: NgForm) {
-    console.log(fregistro.valid);
   }
 
   seleccionarAvatar(avatar) {
@@ -97,9 +119,15 @@ export class LoginPage implements OnInit, AfterViewInit {
     avatar.seleccionado = true;
   }
 
-  cambiaSlide(opt) {
+  cambiaARegistro() {
     this.slide.lockSwipes(false);
-    (opt === 'login') ? this.slide.slidePrev(): this.slide.slideNext();
+    this.slide.slideTo(1);
+    this.slide.lockSwipes(true);
+  }
+
+  cambiaALogin() {
+    this.slide.lockSwipes(false);
+    this.slide.slideTo(0);
     this.slide.lockSwipes(true);
   }
 

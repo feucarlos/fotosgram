@@ -48,7 +48,7 @@
 
     </ion-slide>
 
-    <ion-slide>
+    <ion-slide >
 
       <ion-grid fixed>
 
@@ -70,7 +70,7 @@
           </ion-col>
         </ion-row>
 
-        <form (ngSbmit)="registro(fregistro)" #fregistro="ngForm">
+        <form (ngSubmit)="registro(fregistro)" #fregistro="ngForm">
           <ion-row>
             <ion-col>
 
@@ -78,17 +78,17 @@
 
                 <ion-item>
                   <ion-label>Email</ion-label>
-                  <ion-input name="email" type="email" required></ion-input>
+                  <ion-input name="email" type="email" [(ngModel)]="registerUser.email" required></ion-input>
                 </ion-item>
 
                 <ion-item>
                   <ion-label>Nombre</ion-label>
-                  <ion-input name="nombre" type="text" required></ion-input>
+                  <ion-input name="nombre" type="text" [(ngModel)]="registerUser.nombre"  required></ion-input>
                 </ion-item>
 
                 <ion-item>
                   <ion-label>Password</ion-label>
-                  <ion-input name="password" type="password" required></ion-input>
+                  <ion-input name="password" type="password" [(ngModel)]="registerUser.password"  required></ion-input>
                 </ion-item>
 
               </ion-list>
@@ -112,7 +112,6 @@
 
   </ion-slides>
 
-
 </ion-content>
 
 
@@ -123,21 +122,19 @@
 
       <ion-col>
         <ion-button shape="round" expand="full" size="small" fill="outline" color="tertiary"
-          (click)="cambiaSlide('login')">
+          (click)="cambiaALogin()">
           Ingresar
         </ion-button>
       </ion-col>
 
       <ion-col>
         <ion-button shape="round" expand="full" size="small" fill="outline" color="tertiary"
-        (click)="cambiaSlide('registro')">
+        (click)="cambiaARegistro()">
           Registrarme
         </ion-button>
       </ion-col>
 
     </ion-row>
-
-
 
   </ion-toolbar>
 </ion-footer>
