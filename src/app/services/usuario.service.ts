@@ -38,6 +38,15 @@ export class UsuarioService {
 
   }
 
+  getUsuario(){
+
+    if ( !this.usuario._id ){
+      this.validaToken();
+    }
+
+    return { ...this.usuario };
+  }
+
   async guradarToken( token: string ){
     this.token = token;
     await this.storage.set('token', token)
@@ -88,6 +97,28 @@ export class UsuarioService {
       }
       });
     });
+  }
+
+  actualizarUsuario(usuario: Usuario){
+
+    const headers = new HttpHeaders({
+      'x-token': this.token
+    });
+
+    return new Promise( resolve =>{
+      this.http.post(`${URL}/user/update`, usuario, {headers})
+        .subscribe( resp => {
+          if ( resp['ok'] ){
+            this.guradarToken( resp['token'] );
+            resolve(true);
+          } else {
+              resolve(false);
+          }
+        });
+
+    });
+
+
   }
 
 }
