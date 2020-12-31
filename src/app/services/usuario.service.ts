@@ -23,10 +23,10 @@ export class UsuarioService {
 
     return new Promise( resolve => {
 
-      this.http.post(`${URL}/user/login`, data).subscribe( resp => {
+      this.http.post(`${URL}/user/login`, data).subscribe( async resp => {
         console.log(resp);
         if ( resp['ok'] ){
-          this.guradarToken(resp['token']);
+          await this.guradarToken(resp['token']);
           resolve(true);
         } else {
           this.token = null;
@@ -36,6 +36,13 @@ export class UsuarioService {
       });
    });
 
+  }
+
+  logout(){
+    this.token = null;
+    this.usuario = null;
+    this.storage.clear();
+    this.navCtrl.navigateRoot('/login', { animated: true });
   }
 
   getUsuario(){
@@ -49,17 +56,19 @@ export class UsuarioService {
 
   async guradarToken( token: string ){
     this.token = token;
-    await this.storage.set('token', token)
+    await this.storage.set('token', token);
+
+    await this.validaToken();
   }
 
   registro( usuario: Usuario){
 
     return new Promise( resolve => {
       this.http.post(`${URL}/user/create`, usuario)
-        .subscribe( resp => {
+        .subscribe( async resp => {
           console.log(resp);
           if ( resp['ok'] ){
-            this.guradarToken(resp['token']);
+            await this.guradarToken(resp['token']);
             resolve(true);
           } else {
             this.token = null;
@@ -118,7 +127,8 @@ export class UsuarioService {
 
     });
 
-
   }
+
+
 
 }
