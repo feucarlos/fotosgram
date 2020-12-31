@@ -105,7 +105,7 @@ export class UsuarioService {
       'x-token': this.token
     });
 
-    return new Promise( resolve =>{
+    return new Promise<boolean>( resolve =>{
       this.http.post(`${URL}/user/update`, usuario, {headers})
         .subscribe( resp => {
           if ( resp['ok'] ){
