@@ -38,6 +38,8 @@ export class Tab2Page {
       posicion: false
     }
 
+    this.tempImages = [];
+
     this.navCtrl.navigateRoot('/main/tabs/tab1');
   }
 
