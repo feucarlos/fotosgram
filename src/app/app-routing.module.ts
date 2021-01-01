@@ -5,7 +5,7 @@ import { UsuarioGuard } from './guards/usuario.guard';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./pages/tabs/tabs.module').then(m => m.TabsPageModule),
   },
   {
     path: 'main',
